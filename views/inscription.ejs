@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscription</title>
+    <link rel="stylesheet" href="/public/css/inscription.css">
+
+
+<%- include('partials/header') %>
+
+<section>
+        
+    <form>
+      <div class="container">
+       <legend>INSCRIPTION</legend>
+
+       <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Nom</label>
+        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Nom" autocomplete="off" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Prénom</label>
+        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Prenom" autocomplete="off" required>
+      </div>
+
+           <div class="mb-3">
+             <label for="exampleInputEmail1" class="form-label">Adresse Mail</label>
+             <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="mail@exemple.com" autocomplete="off" required>
+           </div>
+
+           <div class="mb-3">
+             <label for="exampleInputPassword1" class="form-label" >Mot de passe</label>
+             <input type="password" class="form-control" id="exampleInputPassword1"  placeholder="Mot de passe" autocomplete="off" required>
+
+             <div id="inscription" class="form-text">Vous avez déjà un compte? 
+               <a href="/HTML/connexion.html">Connexion</a>
+             </div>
+
+           </div>
+           <div id="button">
+             <button type="submit" class="btn btn-primary">S'inscrire</button>
+           </div>
+         </div>
+         </form>
+
+   </section>
+
+<%- include('partials/footer') %>
