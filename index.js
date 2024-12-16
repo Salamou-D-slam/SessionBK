@@ -39,10 +39,13 @@ app.use(
   db.connect();
   
   app.get("/", (req, res) => {
+    res.render("home.ejs");
+  });
+
+  app.get("/connexion", (req, res) => {
     res.render("connexion.ejs");
   });
 
-  
   app.get("/inscription", (req, res) => {
     res.render("inscription.ejs");
   });
@@ -72,8 +75,11 @@ app.use(
   }));
   
   app.post("/inscription", async (req, res) => {
-    const email = req.body.username;
+    const nom = req.body.nom;
+    const prenom = req.body.prenom;
+    const email = req.body.email;
     const password = req.body.password;
+
   
     try {
       const checkResult = await db.query("SELECT * FROM users WHERE email = $1", [
@@ -90,8 +96,8 @@ app.use(
           } else {
             console.log("Hashed Password:", hash);
             const result = await db.query(
-              "INSERT INTO users (email, password) VALUES ($1, $2) RETURNING *",
-              [email, hash]
+              "INSERT INTO users (nom, prenom, email, password) VALUES ($1, $2, $3, $4) RETURNING *",
+              [nom, prenom, email, hash]
             );
             const user  = result.rows[0];
             req.login(user, (err) => {
@@ -109,11 +115,11 @@ app.use(
   
   
   
-  passport.use(new Strategy(async function verify(username, password, cb) {
-  console.log(username)
+  passport.use(new Strategy(async function verify(email, password, cb) {
+  console.log(email)
     try {
       const result = await db.query("SELECT * FROM users WHERE email = $1", [
-        username,
+        email,
       ]);
       if (result.rows.length > 0) {
         const user = result.rows[0];
@@ -147,11 +153,6 @@ app.use(
   passport.deserializeUser((user, cb) => {
     cb(null, user);
   });
-  
-
-
-
-
 
 
 app.listen(port, () => {
