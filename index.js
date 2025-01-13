@@ -5,6 +5,9 @@ import bcrypt from "bcrypt";
 import session from "express-session";
 import passport from "passport";
 import { Strategy } from "passport-local";
+import { dirname } from "path";
+import { fileURLToPath } from "url";
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const app = express();
 const port = 3000;
@@ -39,16 +42,13 @@ app.use(
   db.connect();
   
   app.get("/", (req, res) => {
-    res.render("accueil.ejs");
-  });
+    res.sendFile(__dirname + "/Public/HTML/index.html");});
 
   app.get("/connexion", (req, res) => {
-    res.render("connexion.ejs");
-  });
+    res.sendFile(__dirname + "/Public/HTML/connexion.html");});
 
   app.get("/inscription", (req, res) => {
-    res.render("inscription.ejs");
-  });
+    res.sendFile(__dirname + "/Public/HTML/inscription.html");});
   
   
   app.get("/deconnexion", (req, res) => {
@@ -77,13 +77,13 @@ app.use(
   app.post("/inscription", async (req, res) => {
     const nom = req.body.nom;
     const prenom = req.body.prenom;
-    const email = req.body.email;
+    const username = req.body.username;
     const password = req.body.password;
 
   
     try {
       const checkResult = await db.query("SELECT * FROM users WHERE email = $1", [
-        email,
+        username,
       ]);
   
       if (checkResult.rows.length > 0) {
@@ -97,7 +97,7 @@ app.use(
             console.log("Hashed Password:", hash);
             const result = await db.query(
               "INSERT INTO users (nom, prenom, email, password) VALUES ($1, $2, $3, $4) RETURNING *",
-              [nom, prenom, email, hash]
+              [nom, prenom, username, hash]
             );
             const user  = result.rows[0];
             req.login(user, (err) => {
