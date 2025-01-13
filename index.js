@@ -39,7 +39,7 @@ app.use(
   db.connect();
   
   app.get("/", (req, res) => {
-    res.render("home.ejs");
+    res.render("accueil.ejs");
   });
 
   app.get("/connexion", (req, res) => {
@@ -67,7 +67,7 @@ app.use(
     } else {
       res.redirect("/connexion");
     }
-  })
+  });
   
   app.post("/connexion", passport.authenticate("local", {
     successRedirect: "/secrets",
@@ -89,7 +89,7 @@ app.use(
       if (checkResult.rows.length > 0) {
         res.send("Email already exists. Try logging in.");
       } else {
-        //hashing the password and saving it in the database
+        //hashage du password et le sauvegarder dans la base de donnée
         bcrypt.hash(password, saltRounds, async (err, hash) => {
           if (err) {
             console.error("Error hashing password:", err);
@@ -115,11 +115,11 @@ app.use(
   
   
   
-  passport.use(new Strategy(async function verify(email, password, cb) {
-  console.log(email)
+  passport.use(new Strategy(async function verify(username, password, cb) {
+  console.log(username)
     try {
       const result = await db.query("SELECT * FROM users WHERE email = $1", [
-        email,
+        username,
       ]);
       if (result.rows.length > 0) {
         const user = result.rows[0];
