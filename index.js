@@ -8,10 +8,17 @@ import { Strategy } from "passport-local";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
 const __dirname = dirname(fileURLToPath(import.meta.url));
+// import cors from cors;
 
 const app = express();
 const port = 3000;
 const saltRounds = 10;
+
+/*
+app.use(cors());  // Autorise les requêtes provenant de domaines différents
+app.get('/api/data', (req, res) => {
+  res.json({ message: "Hello from backend" });
+});*/
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
