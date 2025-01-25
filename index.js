@@ -75,6 +75,15 @@ app.use(
       res.redirect("/connexion");
     }
   });
+
+    // Route pour vérifier l'état d'authentification
+app.get('/api/auth/status', (req, res) => {
+  if (req.isAuthenticated && req.isAuthenticated()) {
+      res.json({ isAuthenticated: true, username: req.user.username }); // Si l'utilisateur est connecté
+  } else {
+      res.json({ isAuthenticated: false }); // Si l'utilisateur n'est pas connecté
+  }
+});
   
   app.post("/connexion", passport.authenticate("local", {
     successRedirect: "/secrets",
